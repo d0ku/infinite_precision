@@ -39,3 +39,15 @@ def test_lcd_a_equals_b():
     assert inf_prec.lcd(12, 12) == 12
     assert inf_prec.lcd(13, 13) == 13
     assert inf_prec.lcd(9, 9) == 9
+
+# Reduce fractions.
+
+
+def test_numerator_bigger_than_denominator():
+    a = inf_prec.Number(12, 6)
+    a.reduce()
+    assert a == inf_prec.Number(2, 1)
+
+    b = inf_prec.Number(9, 3)
+    b.reduce()
+    assert b == inf_prec.Number(3, 1)
