@@ -18,7 +18,14 @@ def gcd(a: int, b: int) -> int:
 def lcd(a: int, b: int) -> int:
     """Lowest common denominator, find lowest number c such that
     c%a == c%b == 0"""
-    pass
+    minimum = max(a, b)
+    maximum = a*b
+
+    for c in range(minimum, maximum+1):
+        if c % a == c % b == 0:
+            return c
+
+    return maximum
 
 
 class Number:
