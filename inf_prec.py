@@ -4,6 +4,8 @@ divisor and lowest common denominator."""
 
 # TODO: gcd and lcd with negative numbers, consider.
 
+import cProfile
+
 
 def gcd(a: int, b: int) -> int:
     """Greatest common divisor, find highest number c such that
@@ -19,16 +21,10 @@ def gcd(a: int, b: int) -> int:
 
 def lcd(a: int, b: int) -> int:
     """Lowest common denominator, find lowest number c such that
-    c%a == c%b == 0"""
-    minimum = max(a, b)
-    maximum = a*b
+    c%a == c%b == 0
+        lcd(a,b) = ab/gcd(a, b)"""
 
-    for c in range(minimum, maximum+1):
-        if (c % a == 0 and
-                c % b == 0):
-            return c
-
-    return maximum
+    return (a // gcd(a, b)) * b
 
 
 class Number:
@@ -45,13 +41,12 @@ class Number:
                                     self.numerator / self.denominator)
 
     def reduce(self):
-        """Reduce fraction (divide by common divisor in numerator and
+        """Reduce fraction (divide by greatest common divisor in numerator and
         denominator). """
-        maximum = max(abs(self.numerator), abs(self.denominator))
-        for val in range(maximum, 1, -1):
-            if self.numerator % val == 0 == self.denominator % val:
-                self.numerator //= val
-                self.denominator //= val
+        reducer = gcd(self.numerator, self.denominator)
+
+        self.numerator //= reducer
+        self.denominator //= reducer
 
     def __eq__(self, item):
         if isinstance(item, Number):
@@ -61,6 +56,14 @@ class Number:
                     self.denominator == self.denominator):
                 return True
         return False
+
+    def __gt__(self, item):
+        if isinstance(item, Number):
+            # Find common denominator and compare adjusted numerators.
+            denominator = lcd(self.denominator, item.denominator)
+            first = self.numerator * (denominator // self.denominator)
+            second = item.numerator * (denominator // item.denominator)
+            return first > second
 
     def __add__(self, item):
         if isinstance(item, Number):
@@ -95,9 +98,28 @@ class Number:
             return res
 
 
-a = Number(1, 2)
-b = Number(1, 3)
-print(a + b)
-print(a - b)
-print(a * b)
-print(a / b)
+def main():
+    a = Number(1, 2)
+    b = Number(1, 3)
+    print(a)
+    print(b)
+    print(a + b)
+    print(a - b)
+    print(a * b)
+    print(a / b)
+
+    print()
+    print()
+    print()
+
+    one = Number(1)
+    two = Number(2)
+    eps = Number(1)
+
+    while one + eps/two > one:
+        eps /= two
+        print(eps)
+    print(eps)
+
+
+cProfile.run('main()')
