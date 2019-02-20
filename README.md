@@ -1,16 +1,24 @@
 ## Infinite Precision
 
-### Have you ever wondered whether it's possible to just add 1/3 and 2/3 so you'll get 1?
+### Have you ever wondered whether it's possible to just add 1/10 and 2/10 so you'll get 3/10?
 
 ## Now you can!
 
 ```Python
->>> import inf_prec
->>> a = inf_prec.Number(1, 3)
->>> b = inf_prec.Number(2, 3)
+# Classic float
+>>> a = 1/10
+>>> b = 2/10
 >>> c = a + b
 >>> print(c)
-1/1 False 1.0
+0.30000000000000004
+
+# inf_prec
+>>> import inf_prec
+>>> a = inf_prec.Number(1, 10)
+>>> b = inf_prec.Number(2, 10)
+>>> c = a + b
+>>> print(c)
+3/10 False 0.3
 ```
 
 ## So what is it?
